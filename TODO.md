@@ -2,30 +2,30 @@
 
 ## Neovim 
 - LSP
-- undo tree
+- Undo tree
 
-bascliy copy this [LINK](https://github.com/ThePrimeagen/init.lua/blob/22d0d31cf23f298c029934411d352d1e1e0764ad/lua/theprimeagen/unused_copilot.lua), but understand it to.
+Basically copy this [LINK](https://github.com/ThePrimeagen/init.lua/blob/22d0d31cf23f298c029934411d352d1e1e0764ad/lua/theprimeagen/unused_copilot.lua), but understand it to.
 
 ## Tmux
-- auto open
-- look in to [tmux-sesionizer](https://github.com/ThePrimeagen/tmux-sessionizer/tree/7edf8211e36368c29ffc0d2c6d5d2d350b4d729b)
+- Auto open
+- Look in to [tmux-sesionizer](https://github.com/ThePrimeagen/tmux-sessionizer/tree/7edf8211e36368c29ffc0d2c6d5d2d350b4d729b)
 
 ## Steam 
-- install script based of arch wiki
+- Install script based of arch wiki
 
-## fastfetch
-- fix fastfetxh to exute better
-- animation ascii art
+## Fastfetch
+- Fix fastfetxh to exute better
+- Animation ascii art
 
 ## Qutebrowser 
-- open ayomaticly 2 profiles
-- sync valultwarden to bowser
+- Open ayomaticly 2 profiles
+- Sync valultwarden to bowser
 
-## i3 
-- Get i3 to sort right on  boots
+## i3-wm
+- Get i3 to sort right on boots
 - Fix i3-bar 
 - Costumize backfound mm
 
-## keyboard 
-- switch numpad , to .
-- remap caps to something more useful
+## Keyboard 
+- Remap numpad , to .
+- Remap caps to something more useful
