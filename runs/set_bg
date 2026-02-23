@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+/usr/bin/feh --bg-scale --randomize $HOME/.dev/images/wallpapers/*

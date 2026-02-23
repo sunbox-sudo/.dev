@@ -147,12 +147,12 @@ bindsym $mod+0 workspace number $ws10
 # autostart apps 
 exec --no-startup-id i3-msg "workspace $ws1; exec kitty"
 exec --no-startup-id i3-msg "workspace $ws2; exec kitty"
-exec --no-startup-id i3-msg "workspace $ws3; exec qutebrowser \
-	--basedir ~/.local/share/qutebrowser-work" \
-	--config-py ~/.config/qutebrowser-work/config.py
-exec --no-startup-id i3-msg "workspace $ws4; exec qutebrowser \
-	--basedir ~/.local/share/qutebrowser-private" \
-	--config-py ~/.config/qutebrowser-private/config.py
+#exec --no-startup-id i3-msg "workspace $ws3; exec qutebrowser \
+#	--basedir ~/.local/share/qutebrowser-work" \
+#	--config-py ~/.config/qutebrowser-work/config.py
+#exec --no-startup-id i3-msg "workspace $ws4; exec qutebrowser \
+#	--basedir ~/.local/share/qutebrowser-private" \
+#	--config-py ~/.config/qutebrowser-private/config.py
 exec --no-startup-id i3-msg "workspace $ws5; exec discord"
 exec --no-startup-id i3-msg "workspace $ws7; exec spotify-launcher"
 
@@ -220,3 +220,6 @@ bindsym $mod+Shift+f exec --no-startup-id \
     sh -c 'maim | \
     tee ~/Pictures/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | \
     xclip -selection clipboard -t image/png'
+
+# Background
+exec_always --no-startup-id sh -c '$HOME/.dev/runs/startup > ~/startup.log 2>&1'

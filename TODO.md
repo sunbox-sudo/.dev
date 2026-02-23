@@ -24,8 +24,7 @@ Basically copy this [LINK](https://github.com/ThePrimeagen/init.lua/blob/22d0d31
 ## i3-wm
 - Get i3 to sort right on boots
 - Fix i3-bar 
-- Costumize backfound mm
-- backgorund with Feh
+- Costumize ui mm
 
 ## Keyboard 
 - Remap numpad , to .
