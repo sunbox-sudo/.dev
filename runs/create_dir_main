@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+echo "$0 started"
+mkdir -p ~/workspace/projects
+mkdir -p ~/workspace/snippets
+mkdir -p ~/workspace/archives
+
+echo "$0 done"
