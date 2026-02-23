@@ -1,4 +1,4 @@
-# Programmes
+# PROGRAMMES
 All the programmes i use
 
 ## COMMUNICATIONS
@@ -14,6 +14,15 @@ The browser is use and the plugins
 ## TERMINAL/SHELL
 - Kitty
 - Fastfetch
+- zsh
+    - p10k (Powerlevel10k)
+
+## PROGRAMMING TOOLS  
+- Neovim
+    - LSP
+
+- Tmux
+- Tmux-sesionizer
 
 ## I3-WM
 My wm i use and stuff i use for rice it
@@ -25,3 +34,11 @@ My wm i use and stuff i use for rice it
 - Xclip
 - Maim
 - Eza
+
+
+
+# MORE 
+
+## FONTS
+- Noto-fonts-emoji
+- MesloLGS NF *For p10k*
