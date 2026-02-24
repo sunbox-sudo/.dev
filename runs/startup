@@ -2,9 +2,12 @@
 
 echo "Start up script started"
 
+echo "runs set bg"
 cd .dev
 
 ./runs/set_bg
 
+echo "run picom"
+picom
 
 echo "Start up script s done"
