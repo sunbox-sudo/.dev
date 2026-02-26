@@ -29,3 +29,7 @@ Basically copy this [LINK](https://github.com/ThePrimeagen/init.lua/tree/master)
 ## Keyboard 
 - Remap numpad , to .
 - Remap caps to something more useful
+
+## more
+- Gemeni CLI 
+
