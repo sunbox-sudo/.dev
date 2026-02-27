@@ -1,12 +1,7 @@
 # What i have to do 
 
 ## Neovim 
-- LSP
 - Undo tree
-- Lazy.nvim
-- nvim-treesitter
-- nvim-relescope
-
 
 ## Tmux
 - Auto open
