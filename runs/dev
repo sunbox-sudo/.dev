@@ -27,6 +27,7 @@ sudo pacman -S --noconfirm --needed noto-fonts-emoji
 sudo pacman -S --noconfirm --needed eza 
 sudo pacman -S --noconfirm --needed feh 
 sudo pacman -S --noconfirm --needed cmatrix
+sudo pacman -S --noconfirm --needed ripgrep 
 
 # uppdate dotfiles
 

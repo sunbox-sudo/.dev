@@ -35,6 +35,7 @@ My wm i use and stuff i use for rice it
 - Xclip
 - Maim
 - Eza
+- Ripgrep
 
 
 # MORE 
