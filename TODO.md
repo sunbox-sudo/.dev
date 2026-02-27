@@ -3,8 +3,10 @@
 ## Neovim 
 - LSP
 - Undo tree
+- Lazy.nvim
+- nvim-treesitter
+- nvim-relescope
 
-Basically copy this [LINK](https://github.com/ThePrimeagen/init.lua/tree/master), but understand it to.
 
 ## Tmux
 - Auto open
