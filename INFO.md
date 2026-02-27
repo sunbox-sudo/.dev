@@ -18,16 +18,15 @@ The browser is use and the plugins
     - p10k (Powerlevel10k)
 
 ## PROGRAMMING TOOLS  
-- Neovim
-    - LSP
+- Neovim (list comming soon)
 
 - Tmux
 - Tmux-sesionizer
 
 ## I3-WM
 My wm i use and stuff i use for rice it
-- feh
-- picom
+- Feh
+- Picom
 
 ## MORE 
 - Git 
@@ -37,6 +36,10 @@ My wm i use and stuff i use for rice it
 - Eza
 - Ripgrep
 
+## LANGUAGES
+- Go
+- Lua51
+- Luarocks
 
 # MORE 
 
