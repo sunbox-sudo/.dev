@@ -43,6 +43,10 @@ My wm i use and stuff i use for rice it
 
 # MORE 
 
+## GAMEING
+- Steam
+- SteamCMD
+
 ## FONTS
 - Noto-fonts-emoji
 - MesloLGS NF *For p10k*

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Check if the script is run as root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
+# Backup existing pacman.conf
+cp /etc/pacman.conf /etc/pacman.conf.bak
+
+# Enable the multilib repository
+echo "Enabling the multilib repository..."
+
+# Check if multilib is already enabled
+if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+else
+    echo "Multilib repository is already enabled."
+fi
+
+# Update package databases
+echo "Updating package databases..."
+pacman -Sy --noconfirm
+
+echo "Multilib repository enabled and databases updated."
+

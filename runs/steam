@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+set -e  # Exit on error
+
+echo "Starting Steam installation on Arch Linux..."
+
+# Check if running with sudo
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run with sudo"
+   exit 1
+fi
+
+# Backup existing pacman.conf
+cp /etc/pacman.conf /etc/pacman.conf.bak
+
+# Enable the multilib repository
+echo "Enabling the multilib repository..."
+
+# Check if multilib is already enabled
+if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+else
+    echo "Multilib repository is already enabled."
+fi
+
+# Update package databases
+echo "Updating package databases..."
+pacman -Sy --noconfirm
+
+echo "Multilib repository enabled and databases updated."
+
+
+# Update package database
+echo "Updating package database..."
+pacman -Sy --noconfirm
+
+# Install required dependencies
+echo "Installing dependencies..."
+pacman -S --noconfirm \
+    steam \
+    lib32-glibc \
+    lib32-gcc-libs \
+    lib32-libxcrypt \
+    ttf-liberation \
+    wqy-zenhei
+
+# Optional: Install Proton (for better compatibility)
+echo "Installing Proton for game compatibility..."
+pacman -S --noconfirm proton
+
+# Optional: Install additional gaming libraries
+echo "Installing additional gaming libraries..."
+pacman -S --noconfirm \
+    lib32-vulkan-icd-loader \
+    vulkan-icd-loader \
+    lib32-opengl-driver \
+    opengl-driver
+
+echo "Steam installation complete!"
+echo "You can now launch Steam from your application menu or by running: steam"
+

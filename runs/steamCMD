@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Check if the script is run as root
+	if [[ $EUID -ne 0 ]]; then
+	echo "This script must be run as root" 
+   	exit 1
+fi
+
+# Backup existing pacman.conf
+cp /etc/pacman.conf /etc/pacman.conf.bak
+
+# Enable the multilib repository
+echo "Enabling the multilib repository..."
+
+# Check if multilib is already enabled
+if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+	echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+else
+	echo "Multilib repository is already enabled."
+fi
+
+# Update package databases
+echo "Updating package databases..."
+	pacman -Sy --noconfirm
+
+	echo "Multilib repository enabled and databases updated."
+
+# Update package database and install base-devel
+sudo pacman -Syy base-devel --noconfirm
+
+# Install depenedncions
+	sudo pacman -S lib32-sdl2 lib32-dbus lib32-gcc-libs lib32-glibc --noconfirm
+
+# Remove existing steamcmd directory if it exists
+if [ -d "steamcmd" ]; then
+	echo "Removing existing steamcmd directory..."
+	rm -rf steamcmd
+fi
+
+# Clone SteamCMD from AUR
+git clone https://aur.archlinux.org/steamcmd.git
+
+# Change directory to steamcmd
+cd steamcmd || exit
+
+# Build and install SteamCMD
+makepkg -si --noconfirm
+
+# Clean up
+cd .. && rm -rf steamcmd
+
+echo "SteamCMD installation completed."
+						

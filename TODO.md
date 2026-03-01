@@ -7,9 +7,6 @@
 - Auto open
 - Look in to [tmux-sesionizer](https://github.com/ThePrimeagen/tmux-sessionizer/tree/7edf8211e36368c29ffc0d2c6d5d2d350b4d729b)
 
-## Steam 
-- Install script based of arch wiki
-
 ## Fastfetch
 - Fix fastfetxh to exute better
 - Animation ascii art
