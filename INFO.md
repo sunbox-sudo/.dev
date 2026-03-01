@@ -35,6 +35,10 @@ My wm i use and stuff i use for rice it
 - Maim
 - Eza
 - Ripgrep
+- Bluez
+- Bluez-utils
+- Blue-deprecated-tools
+- Bluetoothctl
 
 ## LANGUAGES
 - Go

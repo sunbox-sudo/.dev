@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Downlaoding the packages
+sudo pacman -S --noconfirm --needed bluez
+sudo pacman -S --noconfirm --needed bluez-utils
+sudo pacman -S --noconfirm --needed bluez-deprecated-tools
+
+systemctl start bluetooth.service
