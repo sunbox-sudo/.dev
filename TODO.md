@@ -1,7 +1,4 @@
-# What i have to do 
-
-## Neovim 
-- Undo tree
+# What i Have To Do 
 
 ## Tmux
 - Auto open
@@ -26,4 +23,5 @@
 
 ## more
 - Gemini CLI 
+- Claude CLI
 - Unity hub
