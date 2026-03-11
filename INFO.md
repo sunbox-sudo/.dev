@@ -39,6 +39,7 @@ My wm i use and stuff i use for rice it
 - Bluez-utils
 - Blue-deprecated-tools
 - Bluetoothctl
+- Yay
 
 ## LANGUAGES
 - Go

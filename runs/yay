@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# saves the execPath
+execPath=$(pwd)
+
+# Download dependencis if needed 
+sudo pacman -S --needed --noconfirm base-devel git
+
+# Changes dir to home
+cd $HOME
+
+# Downloads the packge
+git clone https://aur.archlinux.org/yay.git
+
+# Moves into 
+cd yay
+
+# Make a package
+makepkg -si
+
+# changes back
+cd "$execPath"
