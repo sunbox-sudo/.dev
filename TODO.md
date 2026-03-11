@@ -24,4 +24,3 @@
 ## more
 - Gemini CLI 
 - Claude CLI
-- Unity hub
