@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo pacman -S --noconfirm --needed xorg-server-xephyr
+
+Xephyr :1 -screen 1920x1080 -br &
+i3-msg "workspace 'stream1' output XEPHYR-1"
+i3-msg "workspace 'stream2' output XEPHYR-1"

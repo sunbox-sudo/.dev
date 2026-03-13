@@ -12,3 +12,5 @@ settings:
     https://github.com: access-paste
   content.media.audio_capture:
     https://discord.com: true
+  content.notifications.enabled:
+    https://claude.ai: true

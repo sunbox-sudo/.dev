@@ -212,14 +212,17 @@ bar {
 # Select area screenshot with maim (Mod+Shift+s)
 bindsym $mod+Shift+s exec --no-startup-id \
     sh -c 'maim -s | \
-    tee ~/Pictures/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | \
+    tee ~/Pictures/Sscreenshot_$(date +%Y-%m-%d_%H-%M-%S).png | \
     xclip -selection clipboard -t image/png'
 
 # Fullscreen screenshot with maim (Mod+Shift+f)
 bindsym $mod+Shift+f exec --no-startup-id \
     sh -c 'maim | \
-    tee ~/Pictures/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | \
+    tee ~/Pictures/Screenshot/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | \
     xclip -selection clipboard -t image/png'
 
 # Background
 exec_always --no-startup-id sh -c '$HOME/.dev/runs/startup > ~/startup.log 2>&1'
+
+# Streaming
+bindsym $mod+F10 exec i3-msg "include ~/.config/i3/streaming"
