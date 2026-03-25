@@ -9,5 +9,6 @@ runs/i3-wm
 runs/zsh
 runs/neovim
 runs/yay
+runs/create_dir_main
 
 cd "$execPath"
