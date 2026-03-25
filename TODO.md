@@ -21,6 +21,13 @@
 - Remap numpad , to .
 - Remap caps to something more useful
 
+## Neovim
+- New neowvim config
+- LSP 
+- undotree
+- telescope
+- Treesitter
+
 ## more
 - Gemini CLI 
 - Claude CLI
