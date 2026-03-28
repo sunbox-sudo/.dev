@@ -1,5 +1,5 @@
 2026-01-01
-# What i Have To Do 
+# What I Have To Do 
 
 ## Tmux
 - Auto open
@@ -25,8 +25,8 @@
 ## Neovim
 - New neowvim config
 - LSP 
-- undotree
-- telescope
+- Undotree
+- Telescope
 - Treesitter
 
 ## more
