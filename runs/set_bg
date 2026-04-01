@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
+echo "set_bg has started"
 /usr/bin/feh --bg-scale --randomize $HOME/.dev/images/wallpapers/*
+
+echo "set_bg has ended with no problems"
