@@ -18,7 +18,7 @@ The browser is use and the plugins
     - p10k (Powerlevel10k)
 
 ## PROGRAMMING TOOLS  
-- Neovim (list comming soon)
+- [Neovim](apps/neovim.md) (list comming soon)
 
 - Tmux
 - Tmux-sesionizer
