@@ -1,11 +1,105 @@
 #!/usr/bin/env bash
 
-execPath=$(pwd)
-isDebugMode=false
-wantedTimezone="Europe/Stockholm"
+# Initialize Variables
+#os=""
+desktopShell="hyprland"
+update=1
+stow=1
+timezone="Europe/Stockholm"
+verbose=0
 
-# update syteam
-sudo pacman -Syu --noconfirm
+
+# Logging
+log(){
+	if [ "$verbose" -eq 1 ]; then
+		echo "Log: $*"
+	fi
+}
+warn(){
+	echo "Warn: $*"
+}
+error(){
+	echo "Error: $*" >&2,
+}
+
+# Flags and args
+
+# Help
+usage(){
+	echo "usage: $0 [OPTIONS]"
+	echo "Options:"
+	#echo "  -O, --OS <arch>
+	echo "  -D, --desktop-shell <hyprland|i3>  	Your WM/DE you use"
+	echo "  -u, --no-update 				Don't update "
+	echo "  -s, --no-stow 				Don't stow"
+	echo "  -v, --verbose				Enables verbose"
+	echo "  -h, --help				Show this message"
+	exit 1
+}
+
+PARSED_ARGS=$(getopt --options D:usvh \
+	--longoptions desktop-shell:,no-update,no-stow,verbose,help \
+	--name "$0" -- "$@")
+
+if [ $? -ne 0 ]; then
+	# getopt failed (invalid flags)
+	usage
+fi
+
+eval set -- "$PARSED_ARGS"
+
+# Parse flags
+while true; do
+	case "$1" in
+		-D | --desktop-shell)
+			desktopShell="$2";
+			shift 2
+			;;
+		-u | --no-update)
+			update=0;
+			shift
+			;;
+		-s | --no-stow)
+			stow=0;
+			shift
+			;;
+		-v | --verbose)
+			verbose=1;
+			shift
+			;;
+		-h | --help)
+			usage;
+			shift
+			;;
+		--) 
+			shift;
+			break
+			;;
+		*)
+			error "Unexpected flag $1";
+			usage
+			;;
+	esac
+done
+
+
+# Validate requierd flags
+#if [ -z "$desktopShell" ]; then
+#	echo "Error: --desktop-shell are requierd" >&2
+#	exit 1
+#fi
+
+# log start
+log "Desktop Shell: $desktopShell"
+log "Update: $update"
+log "Stow: $stow"
+log "Timezone: $timezone"
+log "Verbrose: $verbose"
+
+# Main logic 
+
+execPath=$(pwd)
+wantedTimezone="$timezone"
 
 # Change timecone if needed
 _currentTimezone=$(timedatectl show --property=Timezone --value)
@@ -13,33 +107,54 @@ if ["$_currentTimezone" = "$wantedTimezone"] ; then
 	timedatectl set-timezone "$wantedTimezone" 
 fi
 
+if [ "$update" -eq 1]; then
+	log "Download sequense - Started"
+	# update syteam
+	sudo pacman -Syu --noconfirm
 	setxkbmap se 
-# Updates app/packages
-sudo pacman -S --noconfirm --needed git
-sudo pacman -S --noconfirm --needed spotify-launcher
-sudo pacman -S --noconfirm --needed curl
-sudo pacman -S --noconfirm --needed discord
-sudo pacman -S --noconfirm --needed kitty 
-sudo pacman -S --noconfirm --needed fastfetch
-sudo pacman -S --noconfirm --needed qutebrowser  
-sudo pacman -S --noconfirm --needed noto-fonts-emoji  
-sudo pacman -S --noconfirm --needed eza 
-sudo pacman -S --noconfirm --needed feh 
-sudo pacman -S --noconfirm --needed cmatrix
-sudo pacman -S --noconfirm --needed ripgrep 
-sudo pacman -S --noconfirm --needed go 
-sudo pacman -S --noconfirm --needed stow 
 
-# uppdate dotfiles
-
-cd $HOME/.dev/.dotfiles
-git pull origin main
-
-stow -D -t $HOME .
-
-if [ "$isDebugMode" = true ] ; then
-	eza -a 
+	# Updates app/packages
+	sudo pacman -S --noconfirm --needed git
+	sudo pacman -S --noconfirm --needed spotify-launcher
+	sudo pacman -S --noconfirm --needed curl
+	sudo pacman -S --noconfirm --needed discord
+	sudo pacman -S --noconfirm --needed kitty 
+	sudo pacman -S --noconfirm --needed fastfetch
+	sudo pacman -S --noconfirm --needed qutebrowser  
+	sudo pacman -S --noconfirm --needed noto-fonts-emoji  
+	sudo pacman -S --noconfirm --needed eza 
+	sudo pacman -S --noconfirm --needed feh 
+	sudo pacman -S --noconfirm --needed cmatrix
+	sudo pacman -S --noconfirm --needed ripgrep 
+	sudo pacman -S --noconfirm --needed go 
+	sudo pacman -S --noconfirm --needed stow 
+	log "Download sequense - Done"
+else
+	log "Download sequense - Skipped"
 fi
-stow -t $HOME ./
 
-cd "$execPath"
+if [ "$stow" -eq 1 ]; then
+	log "Stow sequense - Started"
+	# uppdate dotfiles
+	cd $HOME/.dev/.dotfiles || error "Couldn't cd to dotfiles"
+ 
+	git pull origin main
+
+	stow -D -t $HOME . || error "Couldn't Delete stow"
+
+	if [ "$verbose" -eq 1 ] ; then
+		eza -a 
+	fi
+
+	stow -t $HOME ./ || error "Couldn't stow"
+	log "Stow sequense - Done"
+else
+	log "Stow sequense - Skipped"
+fi
+
+cd "$execPath" || warn "Couldn't cd to $execPath"
+
+# Log end
+log "Profile generated at $(date)"
+log "Positional arguments remaining (if any): $*" # Show leftover (if any)
+
