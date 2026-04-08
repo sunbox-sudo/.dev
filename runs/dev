@@ -13,15 +13,13 @@ if ["$_currentTimezone" = "$wantedTimezone"] ; then
 	timedatectl set-timezone "$wantedTimezone" 
 fi
 
-setxkbmap se 
+	setxkbmap se 
 # Updates app/packages
 sudo pacman -S --noconfirm --needed git
 sudo pacman -S --noconfirm --needed spotify-launcher
 sudo pacman -S --noconfirm --needed curl
 sudo pacman -S --noconfirm --needed discord
 sudo pacman -S --noconfirm --needed kitty 
-sudo pacman -S --noconfirm --needed xclip
-sudo pacman -S --noconfirm --needed maim 
 sudo pacman -S --noconfirm --needed fastfetch
 sudo pacman -S --noconfirm --needed qutebrowser  
 sudo pacman -S --noconfirm --needed noto-fonts-emoji  
