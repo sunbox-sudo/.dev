@@ -82,6 +82,8 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+# man Pages prewvier
+export MANPAGER="nvim -c 'Man!' -"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -113,6 +115,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
 if [[ -o interactive && -z "$FASTFETCH_DONE" ]]; then
   autoload -Uz add-zsh-hook
   fastfetch_once() {
