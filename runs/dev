@@ -7,7 +7,7 @@ update=1
 stow=1
 timezone="Europe/Stockholm"
 verbose=0
-
+errorRuned=0
 
 # Logging
 log(){
@@ -19,7 +19,13 @@ warn(){
 	echo "Warn: $*"
 }
 error(){
-	echo "Error: $*" >&2,
+	echo "Error: $*" >&2
+	((errorRuned++))
+	if [ errorRuned -ge 1 ]; then
+		exit 1
+	fi
+	cd "$execPath" || error "Couldn't cd to $execPath"
+	exit 1
 }
 
 # Flags and args
@@ -103,11 +109,11 @@ wantedTimezone="$timezone"
 
 # Change timecone if needed
 _currentTimezone=$(timedatectl show --property=Timezone --value)
-if ["$_currentTimezone" = "$wantedTimezone"] ; then
+if ["$_currentTimezone" != "$wantedTimezone" ] ; then
 	timedatectl set-timezone "$wantedTimezone" 
 fi
 
-if [ "$update" -eq 1]; then
+if [ "$update" -eq 1 ]; then
 	log "Download sequense - Started"
 	# update syteam
 	sudo pacman -Syu --noconfirm
@@ -136,7 +142,7 @@ fi
 if [ "$stow" -eq 1 ]; then
 	log "Stow sequense - Started"
 	# uppdate dotfiles
-	cd $HOME/.dev/.dotfiles || error "Couldn't cd to dotfiles"
+	cd "$HOME/.dev/.dotfiles" || error "Couldn't cd to dotfiles"
  
 	git pull origin main
 
@@ -152,7 +158,7 @@ else
 	log "Stow sequense - Skipped"
 fi
 
-cd "$execPath" || warn "Couldn't cd to $execPath"
+cd "$execPath" || error "Couldn't cd to $execPath"
 
 # Log end
 log "Profile generated at $(date)"
