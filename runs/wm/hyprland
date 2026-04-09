@@ -2,5 +2,6 @@
 
 sudo pacman -S hyprland --needed --noconfirm
 
-sudo pacman -S --noconfirm --needed xclip
-sudo pacman -S --noconfirm --needed maim 
+sudo pacman -S --noconfirm --needed hyprpaper
+sudo pacman -S --noconfirm --needed wl-clipboard
+sudo pacman -S --noconfirm --needed 

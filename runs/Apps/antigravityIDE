@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+execPath=$(pwd)
+# 
+cd ~ 
+
+yay -S antigravity
+
+cd "$execPath"
