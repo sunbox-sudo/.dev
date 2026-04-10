@@ -2,6 +2,7 @@
 All the programmes i use
 
 ## COMMUNICATIONS
+- Legcord (discord altenativ)
 - Discord
 
 ## ENTERTAINMENT
@@ -27,12 +28,17 @@ The browser is use and the plugins
 My wm i use and stuff i use for rice it
 - Feh
 - Picom
+- Xclip
+- Maim
+
+## Hyprland
+- wl-copy
+- waybar 
+- hyprpaper
 
 ## MORE 
 - Git 
 - Curl
-- Xclip
-- Maim
 - Eza
 - Ripgrep
 - Bluez

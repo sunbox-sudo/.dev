@@ -1,4 +1,3 @@
-2026-01-01
 # What I Have To Do 
 
 ## Tmux
@@ -6,27 +5,19 @@
 - Look in to [tmux-sesionizer](https://github.com/ThePrimeagen/tmux-sessionizer/tree/7edf8211e36368c29ffc0d2c6d5d2d350b4d729b)
 
 ## Fastfetch
-- Fix fastfetxh to exute better
+- Fix fastfetxh to execute better
 - Animation ascii art
 
 ## Qutebrowser 
 - Open ayomaticly 2 profiles
 - Sync valultwarden to bowser
 
-## i3-wm
-- Get i3 to sort right on boots
-- Fix i3-bar 
-- Costumize ui mm
-
 ## Keyboard 
 - Remap numpad , to .
 - Remap caps to something more useful
 
 ## Neovim
-- New neowvim config
 - LSP 
-- Undotree
-- Telescope
 - Treesitter
 
 ## more
