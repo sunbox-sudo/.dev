@@ -4,5 +4,6 @@ echo "$0 started"
 mkdir -p ~/workspace/projects
 mkdir -p ~/workspace/snippets
 mkdir -p ~/workspace/archives
+mkdir -p ~/workspace/docker
 
 echo "$0 done"
