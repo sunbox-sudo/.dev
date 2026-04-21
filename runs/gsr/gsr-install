@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Installing gpu-screen-recorder dependencies..."
+
+sudo pacman -S --needed --noconfirm jq
+sudo pacman -S --needed --noconfirm libnotify
+sudo pacman -S --needed --noconfirm gpu-screen-recorder
+
+echo "Done. Make scripts executable with:"
+echo "  chmod +x ~/.dev/runs/gsr/gsr-toggle"
+echo "  chmod +x ~/.dev/runs/gsr/gsr-save"
