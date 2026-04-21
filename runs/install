@@ -5,7 +5,6 @@ execPath=$(pwd)
 cd $HOME/.dev
 
 runs/dev
-runs/i3-wm
 runs/zsh
 runs/neovim
 runs/yay

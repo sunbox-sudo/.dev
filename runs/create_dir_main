@@ -5,5 +5,7 @@ mkdir -p ~/workspace/projects
 mkdir -p ~/workspace/snippets
 mkdir -p ~/workspace/archives
 mkdir -p ~/workspace/docker
+mkdir -p ~/Videos
+mkdir -p ~/Pictures
 
 echo "$0 done"
