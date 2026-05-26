@@ -5,9 +5,10 @@ execPath=$(pwd)
 cd $HOME/.dev
 
 runs/dev
-runs/zsh
-runs/neovim
-runs/yay
-runs/create_dir_main
+runs/Apps/zsh
+runs/Apps/neovim
+runs/Apps/yay
+runs/Apps/tmux
+runs/Utils/create_dir_main
 
 cd "$execPath"

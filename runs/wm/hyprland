@@ -2,7 +2,8 @@
 
 sudo pacman -S hyprland --needed --noconfirm
 
-sudo pacman -S --noconfirm --needed hyprpaper
-sudo pacman -S --noconfirm --needed wl-clipboard
-sudo pacman -S --noconfirm --needed hyprshot
-sudo pacman -S --noconfirm --needed playerctl 
+sudo pacman -S --noconfirm --needed \
+    hyprpaper \
+    wl-clipboard \
+    hyprshot \
+    playerctl 

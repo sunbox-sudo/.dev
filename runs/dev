@@ -8,7 +8,7 @@
 # verbose: enables additional logging output.
 # errorRuned: simple error counter used during script termination.
 #os=""
-desktopShell="hyprland"
+desktopShell="hyprland" 
 update=1
 stow=1
 timezone="Europe/Stockholm"
@@ -42,7 +42,7 @@ usage(){
 	echo "usage: $0 [OPTIONS]"
 	echo "Options:"
 	#echo "  -O, --OS <arch>
-	echo "  -D, --desktop-shell <hyprland|i3>  	Your WM/DE you use"
+	echo "  -D, --desktop-shell <hyprland>   	Your WM/DE you use"
 	echo "  -u, --no-update 				Don't update "
 	echo "  -s, --no-stow 				Don't stow"
 	echo "  -v, --verbose				Enables verbose"
@@ -102,6 +102,16 @@ done
 #	exit 1
 #fi
 
+# Validate desktop shell selection.
+case "$desktopShell" in
+	hyprland)
+		;;
+	*)
+		error "Invalid desktop shell: $desktopShell"
+		usage
+		;;
+	esac
+
 # Log initial startup values when verbose mode is enabled.
 log "Desktop Shell: $desktopShell"
 log "Update: $update"
@@ -115,8 +125,8 @@ wantedTimezone="$timezone"
 
 # Change timezone if needed
 _currentTimezone=$(timedatectl show --property=Timezone --value)
-if ["$_currentTimezone" != "$wantedTimezone" ] ; then
-	timedatectl set-timezone "$wantedTimezone" 
+if [ "$_currentTimezone" != "$wantedTimezone" ] ; then
+	timedatectl set-timezone "$wantedTimezone"
 fi
 
 if [ "$update" -eq 1 ]; then
@@ -173,6 +183,24 @@ else
 fi
 
 cd "$execPath" || error "Couldn't cd to $execPath"
+
+# Execute the selected desktop shell script.
+scriptDir=$(cd "$(dirname "$0")" && pwd)
+dsScript="./wm/hyprland"
+
+if [ -f "$dsScript" ]; then
+	log "Executing desktop shell script: $dsScript"
+	bash "$dsScript" "$@" || error "Failed to execute $dsScript"
+else
+	error "Desktop shell script not found: $dsScript"
+fi
+
+if [ -n "$dsScript" ] && [ -f "$dsScript" ]; then
+	log "Executing desktop shell script: $dsScript"
+	bash "$dsScript" "$@" || error "Failed to execute $dsScript"
+else
+	error "Desktop shell script not found: $dsScript"
+fi
 
 # Log end
 log "Profile generated at $(date)"
