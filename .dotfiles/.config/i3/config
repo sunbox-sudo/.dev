@@ -222,7 +222,7 @@ bindsym $mod+Shift+f exec --no-startup-id \
     xclip -selection clipboard -t image/png'
 
 # Background
-exec_always --no-startup-id sh -c '$HOME/.dev/runs/startup > ~/startup.log 2>&1'
+exec_always --no-startup-id sh -c '$HOME/env/runs/startup > ~/startup.log 2>&1'
 
 # Streaming
 bindsym $mod+F10 exec i3-msg "include ~/.config/i3/streaming"

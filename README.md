@@ -8,10 +8,10 @@ start with install git
 ```sudo pacman -S git```
 
 clone the git repo 
-```git clone https://github.com/sunbox-sudo/.dev.git```
+```git clone https://github.com/sunbox-sudo/env.git```
 
 cd to the directory 
-```cd .dev```
+```cd env```
 
 altneatives for step 4 
 alt 1 run instal script 

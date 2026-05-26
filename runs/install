@@ -2,7 +2,7 @@
 
 execPath=$(pwd)
 
-cd $HOME/.dev
+cd $HOME/env
 
 runs/dev
 runs/Apps/zsh

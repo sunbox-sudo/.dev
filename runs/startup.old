@@ -3,7 +3,7 @@
 echo "Start up script started"
 
 echo "runs set bg"
-cd .dev
+cd $HOME/env
 
 ./runs/set_bg
 
