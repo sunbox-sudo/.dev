@@ -4,6 +4,8 @@ execPath=$(pwd)
 
 cd $HOME/env
 
+sudo -v
+
 runs/dev
 runs/Apps/zsh
 runs/Apps/neovim
