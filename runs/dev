@@ -11,6 +11,7 @@
 desktopShell="hyprland" 
 update=1
 stow=1
+runWM=0
 timezone="Europe/Stockholm"
 verbose=0
 errorRuned=0
@@ -45,13 +46,14 @@ usage(){
 	echo "  -D, --desktop-shell <hyprland>   	Your WM/DE you use"
 	echo "  -u, --no-update 				Don't update "
 	echo "  -s, --no-stow 				Don't stow"
+	echo "  -w, --run-wm 				Run WM setup"
 	echo "  -v, --verbose				Enables verbose"
 	echo "  -h, --help				Show this message"
 	exit 1
 }
 
-PARSED_ARGS=$(getopt --options D:usvh \
-	--longoptions desktop-shell:,no-update,no-stow,verbose,help \
+PARSED_ARGS=$(getopt --options D:uswvh \
+	--longoptions desktop-shell:,no-update,no-stow,run-wm,verbose,help \
 	--name "$0" -- "$@")
 
 if [ $? -ne 0 ]; then
@@ -74,6 +76,10 @@ while true; do
 			;;
 		-s | --no-stow)
 			stow=0;
+			shift
+			;;
+		-w | --run-wm)
+			runWM=1;
 			shift
 			;;
 		-v | --verbose)
@@ -116,6 +122,7 @@ case "$desktopShell" in
 log "Desktop Shell: $desktopShell"
 log "Update: $update"
 log "Stow: $stow"
+log "Run WM: $runWM"
 log "Timezone: $timezone"
 log "Verbose: $verbose"
 
@@ -184,22 +191,19 @@ fi
 
 cd "$execPath" || error "Couldn't cd to $execPath"
 
-# Execute the selected desktop shell script.
-scriptDir=$(cd "$(dirname "$0")" && pwd)
-dsScript="./wm/hyprland"
+# Execute the selected desktop shell script if enabled.
+if [ "$runWM" -eq 1 ]; then
+	scriptDir=$(cd "$(dirname "$0")" && pwd)
+	dsScript="$scriptDir/wm/hyprland"
 
-if [ -f "$dsScript" ]; then
-	log "Executing desktop shell script: $dsScript"
-	bash "$dsScript" "$@" || error "Failed to execute $dsScript"
+	if [ -f "$dsScript" ]; then
+		log "Executing desktop shell script: $dsScript"
+		bash "$dsScript" "$@" || error "Failed to execute $dsScript"
+	else
+		error "Desktop shell script not found: $dsScript"
+	fi
 else
-	error "Desktop shell script not found: $dsScript"
-fi
-
-if [ -n "$dsScript" ] && [ -f "$dsScript" ]; then
-	log "Executing desktop shell script: $dsScript"
-	bash "$dsScript" "$@" || error "Failed to execute $dsScript"
-else
-	error "Desktop shell script not found: $dsScript"
+	log "WM setup - Skipped (use -w to enable)"
 fi
 
 # Log end
