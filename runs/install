@@ -13,4 +13,6 @@ runs/Apps/yay
 runs/Apps/tmux
 runs/Utils/create_dir_main
 
+runs/dev
+
 cd "$execPath"
