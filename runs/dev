@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-# Initialize Variables
+# Initialize default variables for this setup script.
+# desktopShell: the desktop/window manager to use.
+# update: whether package updates should run.
+# stow: whether dotfiles should be deployed with GNU stow.
+# timezone: system timezone to enforce.
+# verbose: enables additional logging output.
+# errorRuned: simple error counter used during script termination.
 #os=""
 desktopShell="hyprland"
 update=1
@@ -9,7 +15,7 @@ timezone="Europe/Stockholm"
 verbose=0
 errorRuned=0
 
-# Logging
+# Logging helpers
 log(){
 	if [ "$verbose" -eq 1 ]; then
 		echo "Log: $*"
@@ -21,7 +27,8 @@ warn(){
 error(){
 	echo "Error: $*" >&2
 	((errorRuned++))
-	if [ errorRuned -ge 1 ]; then
+	# If an error occurs, exit immediately after updating the counter.
+	if [ "$errorRuned" -ge 1 ]; then
 		exit 1
 	fi
 	cd "$execPath" || error "Couldn't cd to $execPath"
@@ -30,7 +37,7 @@ error(){
 
 # Flags and args
 
-# Help
+# Help text displayed when the script is invoked with --help or invalid flags.
 usage(){
 	echo "usage: $0 [OPTIONS]"
 	echo "Options:"
@@ -54,7 +61,7 @@ fi
 
 eval set -- "$PARSED_ARGS"
 
-# Parse flags
+# Parse command-line flags and update configuration variables.
 while true; do
 	case "$1" in
 		-D | --desktop-shell)
@@ -95,65 +102,72 @@ done
 #	exit 1
 #fi
 
-# log start
+# Log initial startup values when verbose mode is enabled.
 log "Desktop Shell: $desktopShell"
 log "Update: $update"
 log "Stow: $stow"
 log "Timezone: $timezone"
-log "Verbrose: $verbose"
+log "Verbose: $verbose"
 
-# Main logic 
-
+# Main logic begins here.
 execPath=$(pwd)
 wantedTimezone="$timezone"
 
-# Change timecone if needed
+# Change timezone if needed
 _currentTimezone=$(timedatectl show --property=Timezone --value)
 if ["$_currentTimezone" != "$wantedTimezone" ] ; then
 	timedatectl set-timezone "$wantedTimezone" 
 fi
 
 if [ "$update" -eq 1 ]; then
-	log "Download sequense - Started"
-	# update syteam
+	log "Download sequence - Started"
+	# Update system packages and refresh the package database.
 	sudo pacman -Syu --noconfirm
+	yay -Syu --noconfirm
+	# Ensure the keyboard layout is set to Swedish.
 	setxkbmap se 
 
-	# Updates app/packages
-	sudo pacman -S --noconfirm --needed git
-	sudo pacman -S --noconfirm --needed spotify-launcher
-	sudo pacman -S --noconfirm --needed curl
-	sudo pacman -S --noconfirm --needed discord
-	sudo pacman -S --noconfirm --needed kitty 
-	sudo pacman -S --noconfirm --needed fastfetch
-	sudo pacman -S --noconfirm --needed qutebrowser  
-	sudo pacman -S --noconfirm --needed noto-fonts-emoji  
-	sudo pacman -S --noconfirm --needed eza 
-	sudo pacman -S --noconfirm --needed feh 
-	sudo pacman -S --noconfirm --needed cmatrix
-	sudo pacman -S --noconfirm --needed ripgrep 
-	sudo pacman -S --noconfirm --needed go 
-	sudo pacman -S --noconfirm --needed stow 
-	log "Download sequense - Done"
+	# Install required user packages if they are not already present.
+	sudo pacman -S --noconfirm --needed git \
+		spotify-launcher \
+		curl \
+		kitty \
+		fastfetch \
+		qutebrowser \
+		noto-fonts-emoji \
+		eza \
+		feh \
+		cmatrix \
+		go \
+		stow \
+		|| error "pacman couldn't install packages"
+
+	yay -Syu --noconfirm --needed \
+		dorion-bin \
+		|| error "yay couldn't install packages" 
+
+	log "Download sequence - Done"
 else
 	log "Download sequense - Skipped"
 fi
 
 if [ "$stow" -eq 1 ]; then
-	log "Stow sequense - Started"
-	# uppdate dotfiles
-	cd "$HOME/.dev/.dotfiles" || error "Couldn't cd to dotfiles"
+	log "Stow sequence - Started"
+	# Navigate to the dotfiles repository and sync the latest changes.
+	cd "$HOME/env/.dotfiles" || error "Couldn't cd to dotfiles"
  
 	git pull origin main
 
-	stow -D -t $HOME . || error "Couldn't Delete stow"
+	# Remove any previously stowed files before reapplying dotfiles.
+	stow -D -t "$HOME" . || error "Couldn't Delete stow"
 
 	if [ "$verbose" -eq 1 ] ; then
 		eza -a 
 	fi
 
-	stow -t $HOME ./ || error "Couldn't stow"
-	log "Stow sequense - Done"
+	# Create symlinks from the dotfiles repository into the home directory.
+	stow -t "$HOME" ./ || error "Couldn't stow"
+	log "Stow sequence - Done"
 else
 	log "Stow sequense - Skipped"
 fi
