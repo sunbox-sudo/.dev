@@ -52,7 +52,7 @@ usage(){
 	exit 1
 }
 
-PARSED_ARGS=$(getopt --options D:uswvh \
+PAutostartRSED_ARGS=$(getopt --options D:uswvh \
 	--longoptions desktop-shell:,no-update,no-stow,run-wm,verbose,help \
 	--name "$0" -- "$@")
 
@@ -176,7 +176,7 @@ if [ "$stow" -eq 1 ]; then
 	git pull origin main
 
 	# Remove any previously stowed files before reapplying dotfiles.
-	stow -D -t "$HOME" . || error "Couldn't Delete stow"
+		stow -D -t "$HOME" . || error "Couldn't Delete stow"
 
 	if [ "$verbose" -eq 1 ] ; then
 		eza -a 

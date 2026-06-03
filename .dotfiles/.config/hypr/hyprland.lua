@@ -1,0 +1,7 @@
+local hostname = awful.util.pread("hostname")
+require("modules.animation")
+require("modules.autostart")
+require("modules.keybinds")
+require("modules.rules")
+require("modules.theme")
+require("hosts." .. hostname .. "init")
