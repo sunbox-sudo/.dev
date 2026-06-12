@@ -4,13 +4,14 @@
 local mainMod     = "SUPER"
 local terminal    = "kitty"
 local fileManager = "dolphin"
-local menu        = "wofi"
+local menu        = "wofi -S drun"
 
 -- Apps
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V",         hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd(menu .. " -S drun"))
+hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd(menu)) 
+hl.bind(mainMod .. " + RETURN",     hl.dsp.exec_cmd(terminal))
 
 -- Focus
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
