@@ -1,212 +1,295 @@
 #!/usr/bin/env bash
 
-# Initialize default variables for this setup script.
-# desktopShell: the desktop/window manager to use.
-# update: whether package updates should run.
-# stow: whether dotfiles should be deployed with GNU stow.
-# timezone: system timezone to enforce.
-# verbose: enables additional logging output.
-# errorRuned: simple error counter used during script termination.
-#os=""
-desktopShell="hyprland" 
+set -uo pipefail
+
+###############################################################################
+# Default configuration
+###############################################################################
+
+desktopShell="hyprland"
 update=1
-stow=1
+stowEnabled=1
 runWM=0
 timezone="Europe/Stockholm"
 verbose=0
-errorRuned=0
 
-# Logging helpers
-log(){
-	if [ "$verbose" -eq 1 ]; then
-		echo "Log: $*"
-	fi
-}
-warn(){
-	echo "Warn: $*"
-}
-error(){
-	echo "Error: $*" >&2
-	((errorRuned++))
-	# If an error occurs, exit immediately after updating the counter.
-	if [ "$errorRuned" -ge 1 ]; then
-		exit 1
-	fi
-	cd "$execPath" || error "Couldn't cd to $execPath"
-	exit 1
+###############################################################################
+# Logging
+###############################################################################
+
+log() {
+    if [[ "$verbose" -eq 1 ]]; then
+        printf '[LOG] %s\n' "$*"
+    fi
 }
 
-# Flags and args
-
-# Help text displayed when the script is invoked with --help or invalid flags.
-usage(){
-	echo "usage: $0 [OPTIONS]"
-	echo "Options:"
-	#echo "  -O, --OS <arch>
-	echo "  -D, --desktop-shell <hyprland>   	Your WM/DE you use"
-	echo "  -u, --no-update 				Don't update "
-	echo "  -s, --no-stow 				Don't stow"
-	echo "  -w, --run-wm 				Run WM setup"
-	echo "  -v, --verbose				Enables verbose"
-	echo "  -h, --help				Show this message"
-	exit 1
+warn() {
+    printf '[WARN] %s\n' "$*" >&2
 }
 
-PAutostartRSED_ARGS=$(getopt --options D:uswvh \
-	--longoptions desktop-shell:,no-update,no-stow,run-wm,verbose,help \
-	--name "$0" -- "$@")
+error() {
+    printf '[ERROR] %s\n' "$*" >&2
+    exit 1
+}
 
-if [ $? -ne 0 ]; then
-	# getopt failed (invalid flags)
-	usage
-fi
+###############################################################################
+# Usage
+###############################################################################
 
-eval set -- "$PARSED_ARGS"
+usage() {
+    cat <<EOF
+Usage: $0 [OPTIONS]
 
-# Parse command-line flags and update configuration variables.
-while true; do
-	case "$1" in
-		-D | --desktop-shell)
-			desktopShell="$2";
-			shift 2
-			;;
-		-u | --no-update)
-			update=0;
-			shift
-			;;
-		-s | --no-stow)
-			stow=0;
-			shift
-			;;
-		-w | --run-wm)
-			runWM=1;
-			shift
-			;;
-		-v | --verbose)
-			verbose=1;
-			shift
-			;;
-		-h | --help)
-			usage;
-			shift
-			;;
-		--) 
-			shift;
-			break
-			;;
-		*)
-			error "Unexpected flag $1";
-			usage
-			;;
-	esac
-done
+Options:
+  -D, --desktop-shell <hyprland>  Desktop shell/window manager
+  -u, --no-update                 Skip package updates/installations
+  -s, --no-stow                   Skip GNU stow deployment
+  -w, --run-wm                    Run WM setup script
+  -v, --verbose                   Enable verbose logging
+  -h, --help                      Show this help message
 
+Examples:
+  $0
+  $0 -u
+  $0 -w
+  $0 -D hyprland -w
+EOF
+}
 
-# Validate requierd flags
-#if [ -z "$desktopShell" ]; then
-#	echo "Error: --desktop-shell are requierd" >&2
-#	exit 1
-#fi
+###############################################################################
+# Argument parsing
+###############################################################################
 
-# Validate desktop shell selection.
-case "$desktopShell" in
-	hyprland)
-		;;
-	*)
-		error "Invalid desktop shell: $desktopShell"
-		usage
-		;;
-	esac
+parse_args() {
+    local parsed_args
 
-# Log initial startup values when verbose mode is enabled.
-log "Desktop Shell: $desktopShell"
-log "Update: $update"
-log "Stow: $stow"
-log "Run WM: $runWM"
-log "Timezone: $timezone"
-log "Verbose: $verbose"
+    parsed_args=$(
+        getopt \
+            --options D:uswvh \
+            --longoptions desktop-shell:,no-update,no-stow,run-wm,verbose,help \
+            --name "$0" \
+            -- "$@"
+    ) || {
+        usage
+        exit 1
+    }
 
-# Main logic begins here.
-execPath=$(pwd)
-wantedTimezone="$timezone"
+    eval set -- "$parsed_args"
 
-# Change timezone if needed
-_currentTimezone=$(timedatectl show --property=Timezone --value)
-if [ "$_currentTimezone" != "$wantedTimezone" ] ; then
-	timedatectl set-timezone "$wantedTimezone"
-fi
+    while true; do
+        case "$1" in
+            -D|--desktop-shell)
+                desktopShell="$2"
+                shift 2
+                ;;
+            -u|--no-update)
+                update=0
+                shift
+                ;;
+            -s|--no-stow)
+                stowEnabled=0
+                shift
+                ;;
+            -w|--run-wm)
+                runWM=1
+                shift
+                ;;
+            -v|--verbose)
+                verbose=1
+                shift
+                ;;
+            -h|--help)
+                usage
+                exit 0
+                ;;
+            --)
+                shift
+                break
+                ;;
+            *)
+                error "Unexpected argument: $1"
+                ;;
+        esac
+    done
+}
 
-if [ "$update" -eq 1 ]; then
-	log "Download sequence - Started"
-	# Update system packages and refresh the package database.
-	sudo pacman -Syu --noconfirm
-	yay -Syu --noconfirm
-	# Ensure the keyboard layout is set to Swedish.
-	setxkbmap se 
+###############################################################################
+# Validation
+###############################################################################
 
-	# Install required user packages if they are not already present.
-	sudo pacman -S --noconfirm --needed git \
-		spotify-launcher \
-		curl \
-		kitty \
-		fastfetch \
-		qutebrowser \
-		noto-fonts-emoji \
-		eza \
-		feh \
-		cmatrix \
-		go \
-		stow \
-		|| error "pacman couldn't install packages"
+validate_config() {
+    case "$desktopShell" in
+        hyprland)
+            ;;
+        *)
+            error "Unsupported desktop shell: $desktopShell"
+            ;;
+    esac
+}
 
-	yay -Syu --noconfirm --needed \
-		dorion-bin \
-		|| error "yay couldn't install packages" 
+###############################################################################
+# Timezone
+###############################################################################
 
-	log "Download sequence - Done"
-else
-	log "Download sequense - Skipped"
-fi
+configure_timezone() {
+    local current_timezone
 
-if [ "$stow" -eq 1 ]; then
-	log "Stow sequence - Started"
-	# Navigate to the dotfiles repository and sync the latest changes.
-	cd "$HOME/env/.dotfiles" || error "Couldn't cd to dotfiles"
- 
-	git pull origin main
+    if ! command -v timedatectl >/dev/null 2>&1; then
+        warn "timedatectl not found, skipping timezone configuration"
+        return
+    fi
 
-	# Remove any previously stowed files before reapplying dotfiles.
-		stow -D -t "$HOME" . || error "Couldn't Delete stow"
+    current_timezone=$(timedatectl show --property=Timezone --value)
 
-	if [ "$verbose" -eq 1 ] ; then
-		eza -a 
-	fi
+    if [[ "$current_timezone" != "$timezone" ]]; then
+        log "Changing timezone: $current_timezone -> $timezone"
+        sudo timedatectl set-timezone "$timezone" \
+            || error "Failed to set timezone"
+    else
+        log "Timezone already set to $timezone"
+    fi
+}
 
-	# Create symlinks from the dotfiles repository into the home directory.
-	stow -t "$HOME" ./ || error "Couldn't stow"
-	log "Stow sequence - Done"
-else
-	log "Stow sequense - Skipped"
-fi
+###############################################################################
+# Package management
+###############################################################################
 
-cd "$execPath" || error "Couldn't cd to $execPath"
+update_system() {
+    [[ "$update" -eq 1 ]] || {
+        log "Package update skipped"
+        return
+    }
 
-# Execute the selected desktop shell script if enabled.
-if [ "$runWM" -eq 1 ]; then
-	scriptDir=$(cd "$(dirname "$0")" && pwd)
-	dsScript="$scriptDir/wm/hyprland"
+    log "Package update sequence started"
 
-	if [ -f "$dsScript" ]; then
-		log "Executing desktop shell script: $dsScript"
-		bash "$dsScript" "$@" || error "Failed to execute $dsScript"
-	else
-		error "Desktop shell script not found: $dsScript"
-	fi
-else
-	log "WM setup - Skipped (use -w to enable)"
-fi
+    sudo pacman -Syu --noconfirm \
+        || error "pacman system update failed"
 
-# Log end
-log "Profile generated at $(date)"
-log "Positional arguments remaining (if any): $*" # Show leftover (if any)
+    if command -v yay >/dev/null 2>&1; then
+        yay -Syu --noconfirm \
+            || error "yay system update failed"
+    else
+        warn "yay not installed, skipping AUR updates"
+    fi
 
+    if command -v setxkbmap >/dev/null 2>&1; then
+        setxkbmap se || warn "Failed to set keyboard layout"
+    fi
+
+    sudo pacman -S --noconfirm --needed \
+        git \
+        spotify-launcher \
+        curl \
+        kitty \
+        fastfetch \
+        qutebrowser \
+        noto-fonts-emoji \
+        eza \
+        feh \
+        cmatrix \
+        go \
+        stow \
+        || error "Failed installing pacman packages"
+
+    if command -v yay >/dev/null 2>&1; then
+        yay -S --noconfirm --needed \
+            dorion-bin \
+            || error "Failed installing AUR packages"
+    fi
+
+    log "Package update sequence completed"
+}
+
+###############################################################################
+# Dotfiles
+###############################################################################
+
+deploy_dotfiles() {
+    [[ "$stowEnabled" -eq 1 ]] || {
+        log "Stow sequence skipped"
+        return
+    }
+
+    local dotfiles_dir="$HOME/env/.dotfiles"
+
+    log "Stow sequence started"
+
+    [[ -d "$dotfiles_dir" ]] \
+        || error "Dotfiles directory not found: $dotfiles_dir"
+
+    cd "$dotfiles_dir" \
+        || error "Failed to enter $dotfiles_dir"
+
+    git pull origin main \
+        || error "git pull failed"
+
+    stow -D -t "$HOME" . \
+        || error "Failed removing previous stow links"
+
+    if [[ "$verbose" -eq 1 ]]; then
+        eza -a
+    fi
+
+    stow -t "$HOME" . \
+        || error "Failed creating stow links"
+
+    log "Stow sequence completed"
+}
+
+###############################################################################
+# Window manager setup
+###############################################################################
+
+run_window_manager_setup() {
+    [[ "$runWM" -eq 1 ]] || {
+        log "WM setup skipped"
+        return
+    }
+
+    local script_dir
+    local wm_script
+
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    wm_script="$script_dir/wm/hyprland"
+
+    [[ -f "$wm_script" ]] \
+        || error "WM script not found: $wm_script"
+
+    log "Executing WM script: $wm_script"
+
+    bash "$wm_script" \
+        || error "WM setup failed"
+}
+
+###############################################################################
+# Main
+###############################################################################
+
+main() {
+    local execPath
+
+    execPath="$(pwd)"
+
+    parse_args "$@"
+    validate_config
+
+    log "Desktop Shell : $desktopShell"
+    log "Update        : $update"
+    log "Stow          : $stowEnabled"
+    log "Run WM        : $runWM"
+    log "Timezone      : $timezone"
+    log "Verbose       : $verbose"
+
+    configure_timezone
+    update_system
+    deploy_dotfiles
+
+    cd "$execPath" \
+        || error "Failed returning to original directory"
+
+    run_window_manager_setup
+
+    log "Finished at $(date)"
+}
+
+main "$@"

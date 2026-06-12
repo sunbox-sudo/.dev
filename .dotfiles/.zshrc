@@ -125,3 +125,7 @@ if [[ -o interactive && -z "$FASTFETCH_DONE" ]]; then
   }
   add-zsh-hook precmd fastfetch_once
 fi
+
+# Start SSH agent and add key
+eval "$(ssh-agent -s)" > /dev/null 2>&1
+ssh-add ~/.ssh/github 2>/dev/null
