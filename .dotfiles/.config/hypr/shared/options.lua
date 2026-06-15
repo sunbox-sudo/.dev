@@ -51,7 +51,7 @@ hl.config({
         kb_layout  = "se",
         kb_variant = "",
         kb_model   = "",
-        kb_options = "",
+        kb_options = "caps:escape",
         kb_rules   = "",
         follow_mouse = 1,
         sensitivity  = 0, -- -1.0 to 1.0, 0 = no modification
