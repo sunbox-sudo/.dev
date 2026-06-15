@@ -14,7 +14,6 @@
 
 ## Keyboard 
 - Remap numpad , to .
-- Remap caps to something more useful
 
 ## Neovim
 - LSP 
