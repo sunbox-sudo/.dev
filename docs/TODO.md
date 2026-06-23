@@ -16,9 +16,7 @@
 - Remap numpad , to .
 
 ## Neovim
-- LSP 
-- Treesitter
+- Autmatacly download right Mason LSP
+- Markdown prewview in nivm
 
 ## more
-- Gemini CLI 
-- Claude CLI
