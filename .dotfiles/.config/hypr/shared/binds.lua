@@ -10,7 +10,7 @@ local menu        = "wofi -S drun"
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V",         hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd(menu)) 
+hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + RETURN",     hl.dsp.exec_cmd(terminal))
 
 -- Focus
@@ -66,4 +66,4 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 -- Screenshots (requires hyprshot)
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region -s -z -o ~/Pictures/Screenshots -f screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"))
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd("hyprshot -m output -m active -s -o ~/Pictures/Screenshots -f screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("hyprshot -m window -s -z -o ~/Pictures/Screenshots -f screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("hyprshot -m window -z -o ~/Pictures/Screenshots -f screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"))

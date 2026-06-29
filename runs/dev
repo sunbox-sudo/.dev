@@ -178,11 +178,9 @@ update_system() {
 
     sudo pacman -S --noconfirm --needed \
         git \
-        spotify-launcher \
         curl \
         kitty \
         fastfetch \
-        qutebrowser \
         noto-fonts-emoji \
         eza \
         feh \
@@ -193,8 +191,9 @@ update_system() {
 
     if command -v yay >/dev/null 2>&1; then
         yay -S --noconfirm --needed \
-            dorion-bin \
-            || error "Failed installing AUR packages"
+		vesktop-git \
+		zen-browser \
+		|| error "Failed installing AUR packages"
     fi
 
     log "Package update sequence completed"
