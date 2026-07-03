@@ -28,6 +28,8 @@ if hostname == "laptop" then
     require("hosts/laptop")
 elseif hostname == "SunBox-PC-P" then
     require("hosts/SunBox-PC-P")
+elseif hostname == "Linus-PC-M" then
+    require("hosts/Linus-PC-M")
 else
     hl.notify("WARN", 5000, "rgb(ffaa00)", "hyprland.lua: unknown host '" .. hostname .. "', no host config loaded")
 end
