@@ -26,8 +26,8 @@ if f then f:close() end
  
 if hostname == "laptop" then
     require("hosts/laptop")
-elseif hostname == "SunBox-PC-P" then
-    require("hosts/SunBox-PC-P")
+elseif hostname == "Linus-PC-P" then
+    require("hosts/Linus-PC-P")
 elseif hostname == "Linus-PC-M" then
     require("hosts/Linus-PC-M")
 else

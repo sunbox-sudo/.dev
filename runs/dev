@@ -192,7 +192,7 @@ update_system() {
     if command -v yay >/dev/null 2>&1; then
         yay -S --noconfirm --needed \
 		vesktop-git \
-		zen-browser \
+		zen-browser-bin \
 		|| error "Failed installing AUR packages"
     fi
 
