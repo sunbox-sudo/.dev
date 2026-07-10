@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+sudo pacman -S keyd --needed --noconfirm
+sudo mkdir -p /etc/keyd
+sudo ln -sf "$HOME/env/.dotfiles/etc/keyd/default.conf" /etc/keyd/default.conf
+sudo systemctl enable --now keyd
