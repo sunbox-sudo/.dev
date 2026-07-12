@@ -181,6 +181,7 @@ update_system() {
         curl \
         kitty \
         fastfetch \
+	hyprshot \
         noto-fonts-emoji \
         eza \
         feh \
