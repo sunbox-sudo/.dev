@@ -33,6 +33,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "gopls",
+		"arduino_language_server",
                 "vtsls",
             },
             handlers = {
@@ -88,6 +89,20 @@ return {
                         }
                     }
                 end,
+
+		["arduino_language_server"] = function()
+			local lspconfig = require("lspconfig")
+			lspconfig.arduino_language_server.setup({
+				capabilities = capabilities,
+				cmd = {
+					"arduino-language-server",
+					"-clangd", "/home/sunbox/.local/share/nvim/mason/bin/clangd",
+					"-cli", "/usr/bin/arduino-cli",
+					"-cli-config", "/home/sunbox/.arduino15/arduino-cli.yaml",
+					"-fqbn", "arduino:avr:uno",
+				},
+			})
+		end,
             }
         })
 

@@ -1,3 +1,4 @@
+fpath=($HOME/completion_zsh $fpath)
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -129,3 +130,7 @@ fi
 # Start SSH agent and add key
 eval "$(ssh-agent -s)" > /dev/null 2>&1
 ssh-add ~/.ssh/github 2>/dev/null
+
+# terminal-wakatime setup
+export PATH="$HOME/.wakatime:$PATH"
+eval "$(terminal-wakatime init)"

@@ -3,10 +3,18 @@
 -- Replace "pc" in hyprland.lua with your actual hostname (run: hostname).
 
 hl.monitor({
-    output   = "",
-    mode     = "preferred",
-    position = "auto",
-    scale    = "auto",
+    output = "DP-1",
+    mode = "1920x1080@180",
+    position = "0x0",
+    scale = 1,
+})
+
+hl.monitor({
+    output = "DVI-D-1",
+    mode = "1920x1080@60",
+    position = "-1080x0",  -- use rotated width (1080), not original (1920)
+    scale = 1,
+    transform = 3,
 })
 
 -- Per-device config
