@@ -83,8 +83,65 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-# man Pages prewvier
-export MANPAGER="nvim -c 'Man!' -"
+# man pager colors
+
+# annotated by dave eddy (@yousuckatprogramming)
+# explained - https://youtu.be/D0sG2fj0G4Y
+# borrowed heavily from https://grml.org
+
+# Begin blinking text mode
+# I just use bold red here since my terminal has blinking disabled
+export LESS_TERMCAP_mb=$'\e[1;31m'
+
+# Begin bold text mode
+export LESS_TERMCAP_md=$'\e[1;31m'
+
+# End all special formatting started by mb/md/etc.
+export LESS_TERMCAP_me=$'\e[0m'
+
+# End standout mode
+export LESS_TERMCAP_se=$'\e[0m'
+
+# Begin standout mode
+# search results - bold, yellow foreground, blue background.
+export LESS_TERMCAP_so=$'\e[1;33;44m'
+
+# End underline mode
+export LESS_TERMCAP_ue=$'\e[0m'
+
+# Begin underline mode
+# underline and bold green
+export LESS_TERMCAP_us=$'\e[4;1;32m'
+
+# Begin reverse-video mode
+export LESS_TERMCAP_mr=$'\e[7m'
+
+# Begin dim/half-bright mode
+export LESS_TERMCAP_mh=$'\e[2m'
+
+# Begin subscript mode
+# (probably isn't supported)
+export LESS_TERMCAP_ZN=$'\e[74m'
+
+# End subscript mode
+# (probably isn't supported)
+export LESS_TERMCAP_ZV=$'\e[75m'
+
+# Begin superscript mode
+# (probably isn't supported)
+export LESS_TERMCAP_ZO=$'\e[73m'
+
+# End superscript mode
+# (probably isn't supported)
+export LESS_TERMCAP_ZW=$'\e[75m'
+
+# Clear color code (ANSI escape reset)
+# This because outerwise me bleed time to time (Ex: in env)
+export RESET_FOR_NOT_COLLOR_BLEED=$'\e[0m'
+
+# Finally wire up `man` to use `less`
+# this is usually the default but let's just be sure
+export MANPAGER='less'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
