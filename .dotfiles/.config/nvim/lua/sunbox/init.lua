@@ -2,6 +2,13 @@ require("sunbox.set")
 require("sunbox.remap")
 require("sunbox.lazy_init")
 
+-- ts (tabstop)
+-- Uses https://github.com/bahamas10/tabstop for change tabstops.
+local indent_file = vim.fn.expand("~/.vimrc.indent")
+if vim.fn.filereadable(indent_file) == 1 then
+  vim.cmd("source " .. indent_file)
+end
+
 
 -- folding regions
 -- Enable treesitter folding (required for function folding)
