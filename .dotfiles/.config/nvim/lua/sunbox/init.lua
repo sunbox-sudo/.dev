@@ -9,6 +9,11 @@ if vim.fn.filereadable(indent_file) == 1 then
   vim.cmd("source " .. indent_file)
 end
 
+-- Easy mode
+-- A easy mode for new vim triggerd by :Easy (for other pepole)
+vim.api.nvim_create_user_command("Easy", function()
+  vim.opt.insertmode = true
+end, {})
 
 -- folding regions
 -- Enable treesitter folding (required for function folding)
