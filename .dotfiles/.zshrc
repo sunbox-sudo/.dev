@@ -187,7 +187,3 @@ fi
 # Start SSH agent and add key
 eval "$(ssh-agent -s)" > /dev/null 2>&1
 ssh-add ~/.ssh/github 2>/dev/null
-
-# terminal-wakatime setup
-export PATH="$HOME/.wakatime:$PATH"
-eval "$(terminal-wakatime init)"
