@@ -185,7 +185,15 @@ if [[ -o interactive && -z "$FASTFETCH_DONE" ]]; then
 fi
 
 # Start SSH agent and add key
+# make sure ssh-agent.service is actice
+if ! systemctl --user is-active --quiet ssh-agent.service; then
+    systemctl --user enable --now ssh-agent.service &>/dev/null
+fi
+
+# get AUTH socket
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# adds ssh-keys to agents
 if ! ssh-add -l &>/dev/null; then
   ssh-add ~/.ssh/github
   ssh-add ~/.ssh/id_ed25519_Linus-PC-M 2>/dev/null
