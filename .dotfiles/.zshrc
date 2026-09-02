@@ -185,5 +185,8 @@ if [[ -o interactive && -z "$FASTFETCH_DONE" ]]; then
 fi
 
 # Start SSH agent and add key
-eval "$(ssh-agent -s)" > /dev/null 2>&1
-ssh-add ~/.ssh/github 2>/dev/null
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+if ! ssh-add -l &>/dev/null; then
+  ssh-add ~/.ssh/github
+  ssh-add ~/.ssh/id_ed25519_Linus-PC-M 2>/dev/null
+fi
